@@ -45,7 +45,9 @@ export default {
     }),
   },
   mounted() {
-    this.$store.dispatch(GET_SCHEDULE);
+    if (this.schedule.length === 0) {
+      this.$store.dispatch(GET_SCHEDULE);
+    }
   },
 };
 </script>
