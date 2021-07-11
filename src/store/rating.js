@@ -1,4 +1,8 @@
-import { SET_RATING_HEADER, SET_RATING_TABLE, SET_STUDENT } from '@/store/mutations.type';
+import {
+  SET_RATING_HEADER,
+  SET_RATING_TABLE,
+  SET_STUDENT_FULL_INFO,
+} from '@/store/mutations.type';
 import { GET_RATING } from '@/store/actions.type';
 import api from '@/service/api';
 
@@ -10,10 +14,6 @@ const state = {
 };
 
 const mutations = {
-  [SET_STUDENT](state, studentInfo) {
-    state.student = studentInfo;
-  },
-
   [SET_RATING_TABLE](state, table) {
     state.table = table;
   },
@@ -24,7 +24,9 @@ const mutations = {
 };
 
 const actions = {
-  async [GET_RATING]({ commit }, { recordBookNum, groupId }) {
+  async [GET_RATING]({ commit, rootState }) {
+    const { recordBookNum, groupId } = rootState.student.studentLocalInfo;
+
     try {
       const {
         data,
@@ -37,7 +39,7 @@ const actions = {
 
       commit(SET_RATING_TABLE, data.rating);
 
-      commit(SET_STUDENT, data.student);
+      commit(SET_STUDENT_FULL_INFO, data.student);
     } catch (e) {
       console.log(e);
 

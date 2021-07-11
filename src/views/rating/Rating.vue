@@ -1,26 +1,10 @@
 <template>
-  <section class="col-md-8 col-12 ma-auto">
-    <div class="d-flex align-center justify-center g-main-wrapper">
-      <v-form ref="form"
-              @submit.prevent="finStudentRating"
-              class="d-flex flex-column align-center justify-center fill-width">
-        <v-text-field
-          outlined
-          rounded
-          required
-          append-icon="search"
-          class="fill-width"
-          @click:append="finStudentRating"
-          label="Номер зачётки"
-          :loading="button.loading"
-          :disabled="button.loading"
-          :rules="[v => !!v || 'Данное поле обязательно']"
-          v-model="recordBookNum"
-        />
-      </v-form>
-    </div>
+  <section>
+    <h1 class="mb-5">
+      Рейтинг
+    </h1>
 
-    <v-row justify="center" class="mt-5" v-if="student && student.recordBookNum">
+    <v-row justify="center" v-if="student && student.recordBookNum">
       <v-col md="6">
         <v-card class="mb-5">
           <v-card-title>Карточка студента</v-card-title>
@@ -30,7 +14,7 @@
             <p class="mb-2" v-if="student.groups.length >= 2">
               <v-select v-model="studentGroup"
                         :items="student.groups"
-                        @change="finStudentRating"
+                        @change="findStudentRating"
                         return-object="true"
                         label="Выберите группу"
                         item-text="name">
@@ -47,19 +31,6 @@
               Made by <a target="_blank" href="https://vk.com/kenan_aivazov">Kenan Ayvazov</a>
             </p>
           </v-card-subtitle>
-          <v-card-actions>
-            <v-btn color="primary" @click="saveUserRecordNum">
-              Сохранить
-            </v-btn>
-            <v-spacer />
-            <v-btn
-              color="primary"
-              v-if="lsRecordBook"
-              outlined
-              @click="clearUserRecordNum">
-              Удалить
-            </v-btn>
-          </v-card-actions>
         </v-card>
       </v-col>
     </v-row>
@@ -118,8 +89,9 @@ export default {
   computed: {
     ...mapState({
       table: (state) => state.rating.table,
-      student: (state) => state.rating.student,
       tableHeader: (state) => state.rating.tableHeader,
+      student: (state) => state.student.studentFullInfo,
+      studentLocal: (state) => state.student.studentLocalInfo,
     }),
   },
 
@@ -129,39 +101,14 @@ export default {
   },
 
   methods: {
-
-    saveUserRecordNum() {
-      localStorage.setItem('recordBookNum', this.recordBookNum);
-      localStorage.setItem('studentGroup', JSON.stringify(this.studentGroup));
-
-      if (localStorage.getItem('recordBookNum') || localStorage.getItem('studentGroup')) {
-        alert('Номер зачётки и группа успешно сохранён! Теперь при заходе на сайт вам не нужно будет вводить номер зачётки повторно');
-      }
-    },
-
-    clearUserRecordNum() {
-      localStorage.removeItem('recordBookNum');
-      localStorage.removeItem('studentGroup');
-
-      if (!localStorage.getItem('recordBookNum')) {
-        alert('Номер зачётки успешно удалён из локального хранилища!');
-      }
-    },
-
-    async finStudentRating() {
-      if (this.$refs.form.validate()) {
-        this.button.loading = true;
-
-        try {
-          await this.$store.dispatch(GET_RATING, {
-            recordBookNum: this.recordBookNum,
-            groupId: this.studentGroup?.value,
-          });
-        } catch (e) {
-          console.log(e);
-        } finally {
-          this.button.loading = false;
-        }
+    async findStudentRating() {
+      try {
+        await this.$store.dispatch(GET_RATING, {
+          recordBookNum: this.recordBookNum,
+          groupId: this.studentGroup?.value,
+        });
+      } catch (e) {
+        console.log(e);
       }
     },
 
@@ -175,6 +122,9 @@ export default {
   },
 
   mounted() {
+    if (this.studentLocal && this.table.length === 0) {
+      this.findStudentRating();
+    }
   },
 };
 </script>

@@ -14,6 +14,11 @@ const routes = [
     name: 'SchedulePage',
     component: () => import('@/views/schedule/Schedule.vue'),
   },
+  {
+    path: '/settings',
+    name: 'Settings',
+    component: () => import('@/views/Settings.vue'),
+  },
 ];
 
 const router = new VueRouter({
@@ -21,5 +26,21 @@ const router = new VueRouter({
   base: process.env.BASE_URL,
   routes,
 });
+
+// router.beforeEach((to, from, next) => {
+//   console.log(to, from);
+//
+//   const isAuth = store.studentLocalInfo;
+//
+//   console.log(!isAuth);
+//
+//   if (to.name !== 'WelcomePage' && isAuth) {
+//     next({ name: 'WelcomePage' });
+//   } else {
+//     next({
+//       path: '/',
+//     });
+//   }
+// });
 
 export default router;

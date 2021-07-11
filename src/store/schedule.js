@@ -1,43 +1,31 @@
-import { SET_RATING_HEADER, SET_RATING_TABLE, SET_STUDENT } from '@/store/mutations.type';
-import { GET_RATING } from '@/store/actions.type';
+import { SET_SCHEDULE } from '@/store/mutations.type';
+import { GET_SCHEDULE } from '@/store/actions.type';
 import api from '@/service/api';
 
 const state = {
-  student: {},
-  actualDate: '',
-  table: [],
-  tableHeader: [],
+  schedule: [],
 };
 
 const mutations = {
-  [SET_STUDENT](state, studentInfo) {
-    state.student = studentInfo;
-  },
-
-  [SET_RATING_TABLE](state, table) {
-    state.table = table;
-  },
-
-  [SET_RATING_HEADER](state, tableHeader) {
-    state.tableHeader = tableHeader;
+  [SET_SCHEDULE](state, schedule) {
+    state.schedule = schedule;
   },
 };
 
 const actions = {
-  async [GET_RATING]({ commit }, { recordBookNum, groupId }) {
+  async [GET_SCHEDULE]({ commit, rootState }) {
+    const { recordBookNum, subgroup } = rootState.student.studentLocalInfo;
+
     try {
-      const {
-        data,
-      } = await api.get('/rating/get', {
-        params: {
-          recordBookNum,
-          groupId,
-        },
+      const { data } = await api.post('/schedule/get', {
+        recordBookNum,
+        subgroup,
+        date: new Date(),
       });
 
-      commit(SET_RATING_TABLE, data.rating);
+      console.log(data);
 
-      commit(SET_STUDENT, data.student);
+      commit(SET_SCHEDULE, data);
     } catch (e) {
       console.log(e);
 
