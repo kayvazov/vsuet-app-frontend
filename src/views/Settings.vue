@@ -1,7 +1,7 @@
 <template>
   <section>
     <h1 class="mb-5">
-      Настройки
+      Обновление настроек
     </h1>
 
     <v-card>

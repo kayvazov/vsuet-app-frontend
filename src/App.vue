@@ -9,7 +9,7 @@
     </v-main>
     <v-bottom-navigation
       background-color="#f5f5f5"
-      :input-value="isRegisteredUser"
+      :input-value="isRegistered"
       app
       color="indigo"
       grow
@@ -62,13 +62,16 @@ export default {
   }),
 
   computed: {
-    ...mapState([
-      'studentLocalInfo',
-    ]),
-
-    isRegisteredUser() {
-      return this.studentLocalInfo;
-    },
+    ...mapState({
+      isRegistered: (state) => Object.keys(state.student.studentLocalInfo || {}).length > 0,
+    }),
+  },
+  mounted() {
+    if (!this.isRegistered) {
+      this.$router.push({
+        name: 'Settings',
+      });
+    }
   },
 };
 </script>
