@@ -1,9 +1,5 @@
 <template>
   <section>
-    <h1 class="mb-5">
-      Обновление настроек
-    </h1>
-
     <v-card>
       <v-card-text>
         <v-form ref="regForm">
@@ -38,7 +34,7 @@
 import { SET_STUDENT_LOCAL_INFO } from '@/store/mutations.type';
 
 export default {
-  name: 'Welcome',
+  name: 'UpdateStudentInfo',
   data: () => ({
     student: {
       recordBookNum: '',

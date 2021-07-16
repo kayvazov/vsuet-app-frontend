@@ -148,6 +148,18 @@ export default {
   max-width: 100%;
 }
 
+.v-application:not(.theme--dark) {
+  .table {
+    &-header h3 {
+      color: #d72a2a;
+    }
+
+    td {
+      border-color: #eeee;
+    }
+  }
+}
+
 .table {
   border-collapse: collapse;
   overflow: hidden;
@@ -155,10 +167,6 @@ export default {
   &-header {
     position: sticky;
     left: 0;
-
-    h3 {
-      color: #d72a2a;
-    }
   }
 
   &-wrapper {
@@ -206,7 +214,7 @@ export default {
   }
 
   td {
-    border: 2px solid #eeee;
+    border: 2px solid #333232ee;
     padding: 6px;
     font-size: 12px;
     text-align: center;

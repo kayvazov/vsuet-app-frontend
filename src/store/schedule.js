@@ -1,6 +1,7 @@
 import { SET_SCHEDULE } from '@/store/mutations.type';
 import { GET_SCHEDULE } from '@/store/actions.type';
 import api from '@/service/api';
+import dayjs from 'dayjs';
 
 const state = {
   schedule: [],
@@ -13,14 +14,25 @@ const mutations = {
 };
 
 const actions = {
-  async [GET_SCHEDULE]({ commit, rootState }) {
+  async [GET_SCHEDULE]({ commit, rootState }, payload) {
     const { recordBookNum, subgroup } = rootState.student.studentLocalInfo;
+    let date = dayjs();
+
+    switch (payload?.whatDo) {
+      case '+':
+        date = date.add(payload?.counter, 'day');
+        break;
+      case '-':
+        date = date.subtract(payload?.counter, 'day');
+        break;
+      default:
+    }
 
     try {
       const { data } = await api.post('/schedule/get', {
         recordBookNum,
         subgroup,
-        date: new Date(),
+        date,
       });
 
       console.log(data);

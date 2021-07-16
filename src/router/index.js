@@ -16,8 +16,19 @@ const routes = [
   },
   {
     path: '/settings',
-    name: 'Settings',
-    component: () => import('@/views/Settings.vue'),
+    component: () => import('@/views/settings/Index'),
+    children: [
+      {
+        path: '/',
+        name: 'Settings',
+        component: () => import('@/views/settings/Main'),
+      },
+      {
+        path: 'user/edit',
+        name: 'SettingsUserEdit',
+        component: () => import('@/views/settings/UpdateStudentInfo'),
+      },
+    ],
   },
 ];
 

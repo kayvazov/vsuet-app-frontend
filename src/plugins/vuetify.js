@@ -1,4 +1,5 @@
 import Vue from 'vue';
+import toBoolean from 'to-boolean';
 import Vuetify, {
   VBtn,
   VApp,
@@ -14,5 +15,8 @@ Vue.use(Vuetify, {
 export default new Vuetify({
   icons: {
     iconfont: 'md',
+  },
+  theme: {
+    dark: toBoolean(localStorage.getItem('app-theme') || false),
   },
 });

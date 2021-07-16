@@ -38,11 +38,23 @@ export default {
   name: 'Index',
   data: () => ({
     today: dayjs().format('dddd'),
+    counter: 1,
   }),
   computed: {
     ...mapState({
       schedule: (state) => state.schedule.schedule,
     }),
+  },
+  methods: {
+    manipulateDay(point) {
+      this.$store.dispatch(GET_SCHEDULE, {
+        whatDo: point,
+        counter: this.counter,
+      });
+
+      // eslint-disable-next-line no-plusplus
+      this.counter++;
+    },
   },
   mounted() {
     if (this.schedule.length === 0) {

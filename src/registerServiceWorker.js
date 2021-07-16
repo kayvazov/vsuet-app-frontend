@@ -17,6 +17,8 @@ if (process.env.NODE_ENV === 'production') {
       console.log('Content has been cached for offline use.');
     },
     updatefound() {
+      alert('Доступно обновление!');
+      window.location.reload();
       console.log('New content is downloading.');
     },
     updated() {
