@@ -49,6 +49,13 @@
         </v-icon>
       </router-link>
     </v-bottom-navigation>
+
+    <v-snackbar
+      :timeout="-1"
+      app
+      v-model="isAppUpdated">
+      Установлено обновление. Пожалуйста, перезайдите в приложение
+    </v-snackbar>
   </v-app>
 </template>
 
@@ -58,13 +65,18 @@ import { mapState } from 'vuex';
 export default {
   name: 'App',
 
-  data: () => ({
-  }),
+  data: () => ({}),
 
   computed: {
     ...mapState({
       isRegistered: (state) => Object.keys(state.student.studentLocalInfo || {}).length > 0,
+      isAppUpdated: (state) => state.isAppUpdated,
     }),
+  },
+  methods: {
+    updatePage() {
+      window.location.reload();
+    },
   },
   mounted() {
     if (!this.isRegistered) {

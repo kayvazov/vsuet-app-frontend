@@ -1,14 +1,14 @@
 /* eslint-disable no-console */
 
 import { register } from 'register-service-worker';
+import store from '@/store/index';
+import { SET_UPDATE_APP_SNACKBAR } from '@/store/mutations.type';
+import sendMessage from '@/helper/sendSwMessage';
 
 if (process.env.NODE_ENV === 'production') {
   register(`${process.env.BASE_URL}service-worker.js`, {
     ready() {
-      console.log(
-        'App is being served from cache by a service worker.\n'
-        + 'For more details, visit https://goo.gl/AFskqB',
-      );
+      console.log('App is being served from cache by a service worker');
     },
     registered() {
       console.log('Service worker has been registered.');
@@ -17,11 +17,13 @@ if (process.env.NODE_ENV === 'production') {
       console.log('Content has been cached for offline use.');
     },
     updatefound() {
-      alert('Доступно обновление!');
-      window.location.reload();
       console.log('New content is downloading.');
     },
     updated() {
+      store.commit(SET_UPDATE_APP_SNACKBAR);
+      sendMessage({
+        type: 'SKIP_WAITING',
+      });
       console.log('New content is available; please refresh.');
     },
     offline() {

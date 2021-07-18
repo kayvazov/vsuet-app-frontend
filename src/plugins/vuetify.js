@@ -12,11 +12,13 @@ Vue.use(Vuetify, {
   },
 });
 
+const settings = JSON.parse(localStorage.getItem('settings') || '{}');
+
 export default new Vuetify({
   icons: {
     iconfont: 'md',
   },
   theme: {
-    dark: toBoolean(localStorage.getItem('app-theme') || false),
+    dark: toBoolean(settings.theme || false),
   },
 });

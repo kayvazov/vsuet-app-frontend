@@ -92,6 +92,7 @@ export default {
       tableHeader: (state) => state.rating.tableHeader,
       student: (state) => state.student.studentFullInfo,
       studentLocal: (state) => state.student.studentLocalInfo,
+      settings: (state) => state.settings,
     }),
   },
 
@@ -124,6 +125,10 @@ export default {
   mounted() {
     if (this.studentLocal && this.table.length === 0) {
       this.findStudentRating();
+    }
+
+    if (this.settings.ratingView) {
+      this.viewName = this.settings.ratingView.type;
     }
   },
 };

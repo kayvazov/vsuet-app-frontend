@@ -1,5 +1,5 @@
 <template>
-  <v-list three-line>
+  <v-list elevation="3">
     <v-list-item-group
       color="primary"
     >
@@ -12,7 +12,7 @@
         <v-list-item-content>
           <v-list-item-title>Редактировать данные</v-list-item-title>
           <v-list-item-subtitle>
-            В данном разделе вы можете изменить ранее введённую информацию о себе
+            В данном разделе вы можете <br> изменить ранее введённую <br> информацию о себе
           </v-list-item-subtitle>
         </v-list-item-content>
       </v-list-item>
@@ -26,30 +26,65 @@
           <v-list-item-content>
             <v-list-item-title>Тёмная тема</v-list-item-title>
             <v-list-item-subtitle>
-              Включить тёмную тему
+              Включить тёмную тему <br> (beta-версия)
             </v-list-item-subtitle>
           </v-list-item-content>
           <v-list-item-action>
-            <v-switch :input-value="active" v-model="theme" />
+            <v-switch :input-value="active" v-model="settings.theme" />
           </v-list-item-action>
         </template>
       </v-list-item>
+      <v-list-group>
+        <template v-slot:activator>
+          <v-list-item-content>
+            <v-list-item-title>Настройки рейтинга</v-list-item-title>
+          </v-list-item-content>
+        </template>
+
+        <v-list-item>
+          <v-select
+            v-model="settings.ratingView"
+            label="Отображать рейтинг, как"
+            item-text="name"
+            return-object
+            :items="ratingViewTypes"
+          ></v-select>
+        </v-list-item>
+      </v-list-group>
     </v-list-item-group>
   </v-list>
 </template>
 
 <script>
-import toBoolean from 'to-boolean';
+import { mapState } from 'vuex';
+import { SET_SETTINGS } from '@/store/mutations.type';
 
 export default {
   name: 'Main',
   data: () => ({
-    theme: toBoolean(localStorage.getItem('app-theme')) || false,
+    ratingViewTypes: [
+      {
+        name: 'Таблица',
+        type: 'table-simple',
+      },
+      {
+        name: 'Карточки',
+        type: 'table-card',
+      },
+    ],
   }),
+  computed: {
+    ...mapState({
+      settings: (state) => state.settings,
+    }),
+  },
   watch: {
-    theme() {
-      this.$vuetify.theme.dark = this.theme;
-      localStorage.setItem('app-theme', this.theme);
+    settings: {
+      handler() {
+        this.$store.commit(SET_SETTINGS, this.settings);
+        this.$vuetify.theme.dark = this.settings.theme;
+      },
+      deep: true,
     },
   },
 };

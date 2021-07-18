@@ -20,12 +20,19 @@
             ]"
             filled
           />
-
-          <v-btn color="primary" @click="saveStudentInfo">
-            Сохранить
-          </v-btn>
         </v-form>
       </v-card-text>
+      <v-card-actions>
+        <v-btn color="primary" outlined :to="{ name: 'Settings' }">
+          Назад
+        </v-btn>
+
+        <v-spacer />
+
+        <v-btn color="primary" @click="saveStudentInfo">
+          Сохранить
+        </v-btn>
+      </v-card-actions>
     </v-card>
   </section>
 </template>
