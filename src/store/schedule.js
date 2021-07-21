@@ -18,14 +18,8 @@ const actions = {
     const { recordBookNum, subgroup } = rootState.student.studentLocalInfo;
     let date = dayjs();
 
-    switch (payload?.whatDo) {
-      case '+':
-        date = date.add(payload?.counter, 'day');
-        break;
-      case '-':
-        date = date.subtract(payload?.counter, 'day');
-        break;
-      default:
+    if (payload?.date) {
+      date = dayjs(payload?.date);
     }
 
     try {
@@ -34,8 +28,6 @@ const actions = {
         subgroup,
         date,
       });
-
-      console.log(data);
 
       commit(SET_SCHEDULE, data);
     } catch (e) {

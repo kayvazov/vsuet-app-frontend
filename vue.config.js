@@ -5,7 +5,7 @@ module.exports = {
       template: 'public/index.html',
       filename: 'index.html',
       chunks: ['chunk-vendors', 'chunk-common', 'index'],
-      title: 'VSUET App',
+      title: 'ВГУИТ онлайн',
     },
   },
 
