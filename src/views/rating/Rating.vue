@@ -4,9 +4,9 @@
       Рейтинг
     </h1>
 
-    <v-row justify="center" v-if="student && student.recordBookNum">
+    <v-row justify="center">
       <v-col md="6">
-        <v-card class="mb-5">
+        <v-card v-if="student && student.recordBookNum">
           <v-card-title>Карточка студента</v-card-title>
           <v-card-subtitle class="mt-1">
             <p class="mb-2">Номер зачётки: {{ student.recordBookNum }}</p>
@@ -28,10 +28,14 @@
             </p>
             <p class="mb-2">Дата обновления: {{ parseDate(student.ratingUpdatedAt) }}</p>
             <p class="mb-0">
-              Made by <a target="_blank" href="https://vk.com/kenan_aivazov">Kenan Ayvazov</a>
+              Итоговый рейтинг: <strong class="">{{ averageRating }}</strong>
             </p>
           </v-card-subtitle>
         </v-card>
+        <v-skeleton-loader
+          v-else
+          type="card"
+        ></v-skeleton-loader>
       </v-col>
     </v-row>
 
@@ -39,29 +43,48 @@
       justify="center"
       ref="table"
     >
-      <v-col class="table-wrapper" v-if="table.length">
-        <div class="d-flex justify-center mb-4">
-          <v-btn
-            color="primary"
-            :outlined="viewName !== 'table-card'"
-            class="mr-2"
-            @click="changeDataView('table-card')"
-            large
-          >
-            Карточки
-          </v-btn>
+      <v-col class="table-wrapper">
+        <div v-if="table.length">
+          <div class="d-flex justify-center mb-4">
+            <v-btn
+              color="primary"
+              :outlined="viewName !== 'table-card'"
+              class="mr-2"
+              @click="changeDataView('table-card')"
+              large
+            >
+              Карточки
+            </v-btn>
 
-          <v-btn
-            color="primary"
-            :outlined="viewName !== 'table-simple'"
-            large
-            @click="changeDataView('table-simple')"
-          >
-            Таблица
-          </v-btn>
+            <v-btn
+              color="primary"
+              :outlined="viewName !== 'table-simple'"
+              large
+              @click="changeDataView('table-simple')"
+            >
+              Таблица
+            </v-btn>
+          </div>
+
+          <component :is="viewName" :data="table" />
         </div>
+        <div v-else>
+          <div class="d-flex justify-center mb-4">
+            <v-skeleton-loader
+              type="button"
+              class="mr-2"
+            />
+            <v-skeleton-loader
+              type="button"
+            />
+          </div>
 
-        <component :is="viewName" :data="table" />
+          <v-skeleton-loader
+            v-for="skeleton in 10"
+            :key="skeleton"
+            type="list-item-avatar-two-line"
+          />
+        </div>
       </v-col>
     </v-row>
   </section>
@@ -93,6 +116,7 @@ export default {
       student: (state) => state.student.studentFullInfo,
       studentLocal: (state) => state.student.studentLocalInfo,
       settings: (state) => state.settings,
+      averageRating: (state) => state.rating.averageRating,
     }),
   },
 
@@ -135,11 +159,6 @@ export default {
 </script>
 
 <style lang="scss">
-.v-application {
-  a {
-    color: #d72a2a !important;
-  }
-}
 
 .fill-width {
   width: 100%;
@@ -155,10 +174,6 @@ export default {
 
 .v-application:not(.theme--dark) {
   .table {
-    &-header h3 {
-      color: #d72a2a;
-    }
-
     td {
       border-color: #eeee;
     }

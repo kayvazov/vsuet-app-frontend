@@ -1,66 +1,231 @@
 <template>
-  <v-expansion-panels focusable popout multiple>
-    <v-expansion-panel
-      v-for="(rating, ratingIndex) in data"
-      :key="ratingIndex"
-    >
-      <v-expansion-panel-header>
-        <div class="table-header">
-          <h3 class="mb-0">
-            {{ rating.lesson.name }}
-          </h3>
-          <h4 class="mt-2 mb-0">
-            {{ rating.lesson.type }}
-          </h4>
-        </div>
-      </v-expansion-panel-header>
-      <v-expansion-panel-content class="pt-3">
-        <a :href="rating.lesson.href" target="_blank" class="d-block mb-3">Оригинал</a>
+  <section>
+    <v-expansion-panels focusable popout multiple>
+      <v-expansion-panel hidden>
+        <v-expansion-panel-header>
+          <div class="table-header">
+            <h3 class="mb-0 red--text">
+              Название предмета
+            </h3>
+            <h4 class="mt-2 mb-0">
+              Тип предмета
+            </h4>
+            <h4 class="mt-2 mb-0">
+              Итоговый рейтинг: <span class="red--text">цифра</span>
+            </h4>
+          </div>
+        </v-expansion-panel-header>
+        <v-expansion-panel-content class="pt-3">
+          <a
+            href=""
+            target="_blank"
+            class="d-block mb-3 red--text"
+          >
+            Оригинал
+          </a>
 
-        <div class="table-wrapper">
-          <table ref="table" class="table">
-            <thead>
-            <tr
-              v-for="(ratingHeader, ratingHeaderIndex) in rating.lesson.header"
-              :key="ratingHeaderIndex"
-            >
-              <td
-                v-for="(headerItem, headerItemIndex) in ratingHeader.children"
-                :key="headerItemIndex"
-                :rowspan="headerItem.rowSpan"
-                :colspan="headerItem.colSpan"
-                :hidden="!headerItem.text"
-                :class="[
+          <v-expansion-panels>
+            <v-expansion-panel>
+              <v-expansion-panel-header>
+                <div>
+                  Итог по КТ 1 - <span class="green--text font-weight-bold">90</span>
+                </div>
+              </v-expansion-panel-header>
+              <v-expansion-panel-content>
+                <v-list>
+                  <v-list-item class="pa-0">
+                    <v-list-item-content>
+                      Лекция - 30
+                    </v-list-item-content>
+                  </v-list-item>
+                  <v-list-item class="pa-0">
+                    <v-list-item-content>
+                      Практика - 30
+                    </v-list-item-content>
+                  </v-list-item>
+                  <v-list-item class="pa-0">
+                    <v-list-item-content>
+                      Другое - 30
+                    </v-list-item-content>
+                  </v-list-item>
+                  <v-list-item class="pa-0">
+                    <v-list-item-content>
+                      Лабораторные - 30
+                    </v-list-item-content>
+                  </v-list-item>
+                </v-list>
+              </v-expansion-panel-content>
+            </v-expansion-panel>
+            <v-expansion-panel>
+              <v-expansion-panel-header>
+                <div>
+                  Итог по КТ 2 - <span class="orange--text font-weight-bold">80</span>
+                </div>
+              </v-expansion-panel-header>
+              <v-expansion-panel-content>
+                <v-list>
+                  <v-list-item class="pa-0">
+                    <v-list-item-content>
+                      Лекция - 30
+                    </v-list-item-content>
+                  </v-list-item>
+                  <v-list-item class="pa-0">
+                    <v-list-item-content>
+                      Практика - 30
+                    </v-list-item-content>
+                  </v-list-item>
+                  <v-list-item class="pa-0">
+                    <v-list-item-content>
+                      Другое - 30
+                    </v-list-item-content>
+                  </v-list-item>
+                  <v-list-item class="pa-0">
+                    <v-list-item-content>
+                      Лабораторные - 30
+                    </v-list-item-content>
+                  </v-list-item>
+                </v-list>
+              </v-expansion-panel-content>
+            </v-expansion-panel>
+            <v-expansion-panel>
+              <v-expansion-panel-header>
+                <div>
+                  Итог по КТ 3 - <span class="red--text font-weight-bold">50</span>
+                </div>
+              </v-expansion-panel-header>
+              <v-expansion-panel-content>
+                <v-list>
+                  <v-list-item class="pa-0">
+                    <v-list-item-content>
+                      Лекция - 30
+                    </v-list-item-content>
+                  </v-list-item>
+                  <v-list-item class="pa-0">
+                    <v-list-item-content>
+                      Практика - 30
+                    </v-list-item-content>
+                  </v-list-item>
+                  <v-list-item class="pa-0">
+                    <v-list-item-content>
+                      Другое - 30
+                    </v-list-item-content>
+                  </v-list-item>
+                  <v-list-item class="pa-0">
+                    <v-list-item-content>
+                      Лабораторные - 30
+                    </v-list-item-content>
+                  </v-list-item>
+                </v-list>
+              </v-expansion-panel-content>
+            </v-expansion-panel>
+            <v-expansion-panel>
+              <v-expansion-panel-header>
+                <div>
+                  Итог по КТ 4 - <span class="green--text font-weight-bold">90</span>
+                </div>
+              </v-expansion-panel-header>
+              <v-expansion-panel-content>
+                <v-list>
+                  <v-list-item class="pa-0">
+                    <v-list-item-content>
+                      Лекция - 30
+                    </v-list-item-content>
+                  </v-list-item>
+                  <v-list-item class="pa-0">
+                    <v-list-item-content>
+                      Практика - 30
+                    </v-list-item-content>
+                  </v-list-item>
+                  <v-list-item class="pa-0">
+                    <v-list-item-content>
+                      Другое - 30
+                    </v-list-item-content>
+                  </v-list-item>
+                  <v-list-item class="pa-0">
+                    <v-list-item-content>
+                      Лабораторные - 30
+                    </v-list-item-content>
+                  </v-list-item>
+                </v-list>
+              </v-expansion-panel-content>
+            </v-expansion-panel>
+          </v-expansion-panels>
+        </v-expansion-panel-content>
+      </v-expansion-panel>
+
+      <v-expansion-panel
+        v-for="(rating, ratingIndex) in data"
+        :key="ratingIndex"
+      >
+        <v-expansion-panel-header>
+          <div class="table-header">
+            <h3 class="mb-0 red--text">
+              {{ rating.lesson.name }}
+            </h3>
+            <h4 class="mt-2 mb-0">
+              {{ rating.lesson.type }}
+            </h4>
+            <h4 class="mt-2 mb-0" v-if="['Зачет', 'Экзамен'].includes(rating.lesson.type)">
+              Итоговый рейтинг: <span class="red--text">{{ rating.value[26] }}</span>
+            </h4>
+          </div>
+        </v-expansion-panel-header>
+        <v-expansion-panel-content class="pt-3">
+          <a
+            :href="rating.lesson.href"
+            target="_blank"
+            class="d-block mb-3 red--text"
+          >
+            Оригинал
+          </a>
+
+          <div class="table-wrapper">
+            <table ref="table" class="table">
+              <thead>
+              <tr
+                v-for="(ratingHeader, ratingHeaderIndex) in rating.lesson.header"
+                :key="ratingHeaderIndex"
+              >
+                <td
+                  v-for="(headerItem, headerItemIndex) in ratingHeader.children"
+                  :key="headerItemIndex"
+                  :rowspan="headerItem.rowSpan"
+                  :colspan="headerItem.colSpan"
+                  :hidden="!headerItem.text"
+                  :class="[
                     {
                       'table-item-primary': headerItem.text.includes('Итог')
                     },
 
                   ]"
-              >
-                {{ headerItem.text }}
-              </td>
-            </tr>
-            </thead>
-            <tbody>
-            <tr>
-              <td
-                v-for="(value, valueIndex) in rating.value"
-                :key="valueIndex"
-              >
-                <v-chip :color="getColor(value)">
-                  {{ value }}
-                </v-chip>
-              </td>
-            </tr>
-            </tbody>
-          </table>
-        </div>
-      </v-expansion-panel-content>
-    </v-expansion-panel>
-  </v-expansion-panels>
+                >
+                  {{ headerItem.text }}
+                </td>
+              </tr>
+              </thead>
+              <tbody>
+              <tr>
+                <td
+                  v-for="(value, valueIndex) in rating.value"
+                  :key="valueIndex"
+                >
+                  <v-chip :color="getColor(value)">
+                    {{ value }}
+                  </v-chip>
+                </td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+        </v-expansion-panel-content>
+      </v-expansion-panel>
+    </v-expansion-panels>
+  </section>
 </template>
 
 <script>
+import getRatingColor from '@/helper/getRatingColor';
+
 export default {
   name: 'Card',
   props: {
@@ -68,39 +233,8 @@ export default {
       type: Array,
     },
   },
-
   methods: {
-    detectStage(rating) {
-      if (Number(rating)) {
-        const currentRating = Number(rating);
-
-        if (currentRating >= 85) return 1;
-        if (currentRating >= 75 && currentRating <= 84) return 2;
-        if (currentRating <= 74) return 3;
-      }
-
-      if (rating === 'Отл') return 1;
-      if (rating === 'Хор') return 2;
-      if (rating === 'Удовл' || rating === 'Неуд') return 3;
-      if (rating === 'Зачет') return 4;
-
-      return false;
-    },
-
-    getColor(rating) {
-      switch (this.detectStage(rating)) {
-        case 1:
-          return 'green';
-        case 2:
-          return 'orange';
-        case 3:
-          return 'red';
-        case 4:
-          return 'green';
-        default:
-          return 'white';
-      }
-    },
+    getColor: getRatingColor,
   },
 };
 </script>

@@ -6,6 +6,14 @@
           <router-view />
         </div>
       </v-container>
+      <v-footer class="mt-4 mb-6">
+        <p class="mb-0 text-center d-block ma-auto text-body-2 font-weight-medium">
+          Made with
+          <v-icon color="red">favorite</v-icon>
+          and
+          <v-icon color="brown">coffee</v-icon>
+        </p>
+      </v-footer>
     </v-main>
     <v-bottom-navigation
       background-color="#f5f5f5"
@@ -88,10 +96,16 @@ export default {
 };
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
   .v-bottom-navigation {
     .v-btn {
       height: 100% !important;
     }
+  }
+
+  .v-footer {
+    position: relative !important;
+    bottom: auto !important;
+    top: auto !important;
   }
 </style>

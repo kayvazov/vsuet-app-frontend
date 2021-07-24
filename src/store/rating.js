@@ -1,4 +1,5 @@
 import {
+  SET_AVG_RATING,
   SET_RATING_HEADER,
   SET_RATING_TABLE,
   SET_STUDENT_FULL_INFO,
@@ -9,6 +10,7 @@ import api from '@/service/api';
 const state = {
   student: {},
   actualDate: '',
+  averageRating: 0,
   table: [],
   tableHeader: [],
 };
@@ -16,6 +18,19 @@ const state = {
 const mutations = {
   [SET_RATING_TABLE](state, table) {
     state.table = table;
+  },
+
+  [SET_AVG_RATING](state) {
+    const calcAverageRating = state.table
+      .reduce((acc, ratingItem) => {
+        if (['Зачет', 'Экзамен'].includes(ratingItem.lesson.type)) {
+          acc += Number(ratingItem.value[26]);
+        }
+
+        return acc;
+      }, 0);
+
+    state.averageRating = (calcAverageRating / state.table.length).toFixed(2);
   },
 
   [SET_RATING_HEADER](state, tableHeader) {
@@ -40,6 +55,8 @@ const actions = {
       commit(SET_RATING_TABLE, data.rating);
 
       commit(SET_STUDENT_FULL_INFO, data.student);
+
+      commit(SET_AVG_RATING);
     } catch (e) {
       console.log(e);
 

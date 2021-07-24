@@ -36,7 +36,17 @@
               <br>
               <b>{{ rating.lesson.type }}</b>
               <br>
-              <a :href="rating.lesson.href" target="_blank" class="d-block mt-3">Оригинал</a>
+              <br>
+              Итоговый рейтинг:
+              <span class="red--text font-weight-bold">{{ rating.value[26] }}</span>
+              <br>
+              <a
+                :href="rating.lesson.href"
+                target="_blank"
+                class="d-block mt-3 red--text"
+              >
+                Оригинал
+              </a>
             </p>
           </td>
           <td
@@ -55,6 +65,8 @@
 </template>
 
 <script>
+import getRatingColor from '@/helper/getRatingColor';
+
 export default {
   name: 'Card',
   props: {
@@ -62,39 +74,8 @@ export default {
       type: Array,
     },
   },
-
   methods: {
-    detectStage(rating) {
-      if (Number(rating)) {
-        const currentRating = Number(rating);
-
-        if (currentRating >= 85) return 1;
-        if (currentRating >= 75 && currentRating <= 84) return 2;
-        if (currentRating <= 74) return 3;
-      }
-
-      if (rating === 'Отл') return 1;
-      if (rating === 'Хор') return 2;
-      if (rating === 'Удовл' || rating === 'Неуд') return 3;
-      if (rating === 'Зачет') return 4;
-
-      return false;
-    },
-
-    getColor(rating) {
-      switch (this.detectStage(rating)) {
-        case 1:
-          return 'green';
-        case 2:
-          return 'orange';
-        case 3:
-          return 'red';
-        case 4:
-          return 'green';
-        default:
-          return 'white';
-      }
-    },
+    getColor: getRatingColor,
   },
 };
 </script>

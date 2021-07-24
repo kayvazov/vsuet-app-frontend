@@ -25,7 +25,7 @@
     </v-scale-transition>
 
     <div class="mt-4 mb-4">
-      <div v-if="schedule.length > 0">
+      <div v-if="schedule && schedule.length !== 0">
         <v-list
           class="mt-4"
           v-for="(lesson, lessonIndex) in schedule"
@@ -34,9 +34,38 @@
         >
           <v-list-item>
             <v-list-item-content>
+              <v-list-item-subtitle
+                v-if="lesson.isNow"
+                class="red--text font-weight-bold mb-3 d-flex align-center"
+              >
+                <v-icon color="red">error</v-icon>
+                <span class="ml-2">
+                  Текущая пара
+                </span>
+              </v-list-item-subtitle>
+              <v-list-item-subtitle
+                v-if="lesson.isNext"
+                class="text--primary font-weight-bold mb-3 d-flex align-center"
+              >
+                <v-icon color="primary">info</v-icon>
+                <span class="ml-2">
+                  Следующая пара
+                </span>
+              </v-list-item-subtitle>
               <v-list-item-title>{{ lesson.name }}</v-list-item-title>
-              <v-list-item-subtitle class="mb-4">{{ lesson.type }}</v-list-item-subtitle>
-              <v-list-item-subtitle>Кабинет: {{ lesson.audience }}</v-list-item-subtitle>
+              <v-list-item-subtitle
+                class="mb-4"
+              >
+                {{ lesson.type }}
+              </v-list-item-subtitle>
+              <v-list-item-subtitle>
+                <template v-if="lesson.isNow">
+                  Кабинет: <strong class="text--accent-1">{{ lesson.audience }}</strong>
+                </template>
+                <template v-else>
+                  Кабинет: {{ lesson.audience }}
+                </template>
+              </v-list-item-subtitle>
               <v-list-item-subtitle>Преподаватель: {{ lesson.teacher }}</v-list-item-subtitle>
               <v-list-item-subtitle>
                 Время пары: {{ lesson.time.start }} - {{ lesson.time.end }}
@@ -45,10 +74,17 @@
           </v-list-item>
         </v-list>
       </div>
-      <div v-else>
+      <div v-else-if="schedule && schedule.length === 0">
         <h3>
           Сегодня пар нет
         </h3>
+      </div>
+      <div v-else>
+        <v-skeleton-loader
+          v-for="skeleton in 10"
+          :key="skeleton"
+          type="list-item-three-line"
+        />
       </div>
     </div>
   </section>
@@ -71,7 +107,7 @@ export default {
   }),
   computed: {
     ...mapState({
-      schedule: (state) => state.schedule.schedule,
+      schedule: (state) => state.schedule.list,
     }),
   },
   methods: {
@@ -82,11 +118,16 @@ export default {
     },
   },
   mounted() {
-    if (this.schedule.length === 0) {
+    if (!this.schedule) {
       this.$store.dispatch(GET_SCHEDULE);
     }
   },
 };
 </script>
 
-<style scoped></style>
+<style lang="scss" scoped>
+.v-list-item__title, .v-list-item__subtitle {
+  text-overflow: unset;
+  white-space: unset;
+}
+</style>

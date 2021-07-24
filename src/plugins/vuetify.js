@@ -20,5 +20,13 @@ export default new Vuetify({
   },
   theme: {
     dark: toBoolean(settings.theme || false),
+    themes: {
+      light: {
+        red: '#d72a2a',
+      },
+      dark: {
+        red: '#e84e4f',
+      },
+    },
   },
 });
