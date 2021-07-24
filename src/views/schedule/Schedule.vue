@@ -40,7 +40,7 @@
               >
                 <v-icon color="red">error</v-icon>
                 <span class="ml-2">
-                  Текущая пара
+                  Занятие идёт
                 </span>
               </v-list-item-subtitle>
               <v-list-item-subtitle
