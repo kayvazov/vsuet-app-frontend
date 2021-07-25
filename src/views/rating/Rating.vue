@@ -15,7 +15,7 @@
               <v-select v-model="studentGroup"
                         :items="student.groups"
                         @change="findStudentRating"
-                        return-object="true"
+                        :return-object="true"
                         label="Выберите группу"
                         item-text="name">
                 <template v-slot:prepend>
@@ -27,7 +27,7 @@
               Группа: {{ student.groups[0].name }}
             </p>
             <p class="mb-2">Дата обновления: {{ parseDate(student.ratingUpdatedAt) }}</p>
-            <p class="mb-0">
+            <p class="mb-0" v-if="averageRating">
               Средний рейтинг: <strong class="">{{ averageRating }}</strong>
             </p>
           </v-card-subtitle>

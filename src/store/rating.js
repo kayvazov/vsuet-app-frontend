@@ -24,8 +24,10 @@ const mutations = {
   [SET_AVG_RATING](state) {
     const calcAverageRating = state.table
       .reduce((acc, ratingItem) => {
-        if ([SCORE_NAME, EXAM_NAME].includes(ratingItem.lesson.type)) {
-          acc += Number(ratingItem.value[26]);
+        if (ratingItem.value[26]?.length > 0) {
+          if ([SCORE_NAME, EXAM_NAME].includes(ratingItem.lesson.type)) {
+            acc += Number(ratingItem.value[26]);
+          }
         }
 
         return acc;
@@ -35,7 +37,9 @@ const mutations = {
       .filter((ratingItem) => [SCORE_NAME, EXAM_NAME].includes(ratingItem.lesson.type))
       .length;
 
-    state.averageRating = (calcAverageRating / countLessons).toFixed(2);
+    state.averageRating = calcAverageRating
+      ? (calcAverageRating / countLessons).toFixed(2)
+      : 0;
   },
 
   [SET_RATING_HEADER](state, tableHeader) {

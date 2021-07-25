@@ -179,7 +179,57 @@
             Оригинал
           </a>
 
-          <div class="table-wrapper">
+          <div
+            v-if="
+            rating.upgradedRating &&
+            rating.upgradedRating.length &&
+            rating.upgradedRating.length !== 0"
+          >
+            <v-expansion-panels>
+              <v-expansion-panel
+                v-for="(upgradedRating, upgradedRatingIndex) in rating.upgradedRating"
+                :key="upgradedRatingIndex"
+              >
+                <v-expansion-panel-header>
+                  <div>
+                    {{ upgradedRating.total.name }} -
+                    <span
+                      :class="[
+                        'font-weight-bold',
+                        `${getColor(upgradedRating.total.score)}--text`
+                      ]">
+                      {{ upgradedRating.total.score }}
+                    </span>
+                  </div>
+                </v-expansion-panel-header>
+                <v-expansion-panel-content>
+                  <v-list dense>
+                    <v-list-item
+                      v-for="(pointType, pointTypeIndex) in upgradedRating.items"
+                      :key="pointTypeIndex"
+                      class="pa-0">
+                      <v-list-item-content>
+                        <div>
+                          {{ pointType.name }} -
+                          <span
+                            :class="[
+                            'font-weight-bold',
+                            `${getColor(pointType.score)}--text`
+                          ]">
+                            {{ pointType.score }}
+                          </span>
+                        </div>
+                      </v-list-item-content>
+                    </v-list-item>
+                  </v-list>
+                </v-expansion-panel-content>
+              </v-expansion-panel>
+            </v-expansion-panels>
+          </div>
+          <div
+            v-else
+            class="table-wrapper"
+          >
             <table ref="table" class="table">
               <thead>
               <tr

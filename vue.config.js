@@ -6,6 +6,7 @@ module.exports = {
       filename: 'index.html',
       chunks: ['chunk-vendors', 'chunk-common', 'index'],
       title: 'ВГУИТ онлайн',
+      version: '3.0.1',
     },
   },
 

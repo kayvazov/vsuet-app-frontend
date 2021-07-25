@@ -4,9 +4,11 @@ import api from '@/service/api';
 import dayjs from 'dayjs';
 import isBetween from 'dayjs/plugin/isBetween';
 import isSameOrAfter from 'dayjs/plugin/isSameOrAfter';
+import isToday from 'dayjs/plugin/isToday';
 
 dayjs.extend(isBetween);
 dayjs.extend(isSameOrAfter);
+dayjs.extend(isToday);
 
 const state = {
   list: null,
@@ -37,44 +39,47 @@ const actions = {
       });
 
       let hasNext = false;
+      let lessons;
 
-      const lessons = data.map((lesson) => {
-        if (lesson.time) {
-          const {
-            start: startLesson,
-            end: endLesson,
-          } = lesson.time;
+      if (date.isToday()) {
+        lessons = data.map((lesson) => {
+          if (lesson.time) {
+            const {
+              start: startLesson,
+              end: endLesson,
+            } = lesson.time;
 
-          const [startHour, startMinutes] = startLesson.split('.');
-          const [endHour, endMinutes] = endLesson.split('.');
+            const [startHour, startMinutes] = startLesson.split('.');
+            const [endHour, endMinutes] = endLesson.split('.');
 
-          const today = dayjs();
-          const startLessonTime = dayjs()
-            .hour(Number(startHour))
-            .minute(Number(startMinutes))
-            .second(0)
-            .toDate();
-          const endLessonTime = dayjs()
-            .hour(Number(endHour))
-            .minute(Number(endMinutes))
-            .second(0)
-            .toDate();
+            const today = dayjs();
+            const startLessonTime = dayjs()
+              .hour(Number(startHour))
+              .minute(Number(startMinutes))
+              .second(0)
+              .toDate();
+            const endLessonTime = dayjs()
+              .hour(Number(endHour))
+              .minute(Number(endMinutes))
+              .second(0)
+              .toDate();
 
-          if (today.isBetween(startLessonTime, endLessonTime, null, '[]')) {
-            lesson.isNow = true;
+            if (today.isBetween(startLessonTime, endLessonTime, null, '[]')) {
+              lesson.isNow = true;
+            }
+
+            if (!hasNext && !today.isSameOrAfter(startLessonTime)) {
+              lesson.isNext = true;
+              hasNext = true;
+            }
           }
 
-          if (!hasNext && !today.isSameOrAfter(startLessonTime)) {
-            lesson.isNext = true;
-            hasNext = true;
-          }
-        }
-
-        return lesson;
-      });
+          return lesson;
+        });
+      }
 
       commit(SET_SCHEDULE, {
-        lessons,
+        lessons: lessons || data,
         date,
       });
     } catch (e) {
