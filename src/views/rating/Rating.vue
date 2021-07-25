@@ -28,7 +28,7 @@
             </p>
             <p class="mb-2">Дата обновления: {{ parseDate(student.ratingUpdatedAt) }}</p>
             <p class="mb-0">
-              Итоговый рейтинг: <strong class="">{{ averageRating }}</strong>
+              Средний рейтинг: <strong class="">{{ averageRating }}</strong>
             </p>
           </v-card-subtitle>
         </v-card>

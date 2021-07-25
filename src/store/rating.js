@@ -6,6 +6,7 @@ import {
 } from '@/store/mutations.type';
 import { GET_RATING } from '@/store/actions.type';
 import api from '@/service/api';
+import { EXAM_NAME, SCORE_NAME } from '@/constants';
 
 const state = {
   student: {},
@@ -23,14 +24,18 @@ const mutations = {
   [SET_AVG_RATING](state) {
     const calcAverageRating = state.table
       .reduce((acc, ratingItem) => {
-        if (['Зачет', 'Экзамен'].includes(ratingItem.lesson.type)) {
+        if ([SCORE_NAME, EXAM_NAME].includes(ratingItem.lesson.type)) {
           acc += Number(ratingItem.value[26]);
         }
 
         return acc;
       }, 0);
 
-    state.averageRating = (calcAverageRating / state.table.length).toFixed(2);
+    const countLessons = state.table
+      .filter((ratingItem) => [SCORE_NAME, EXAM_NAME].includes(ratingItem.lesson.type))
+      .length;
+
+    state.averageRating = (calcAverageRating / countLessons).toFixed(2);
   },
 
   [SET_RATING_HEADER](state, tableHeader) {

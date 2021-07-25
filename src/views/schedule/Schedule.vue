@@ -1,7 +1,7 @@
 <template>
   <section>
     <h1 class="mb-5">
-      Расписание на сегодня
+      Расписание на {{ scheduleDay }}
     </h1>
 
     <v-btn color="primary" class="mb-2" @click="settings = !settings">
@@ -101,13 +101,13 @@ dayjs.locale(ru);
 export default {
   name: 'Index',
   data: () => ({
-    today: dayjs().format('dddd'),
     date: null,
     settings: false,
   }),
   computed: {
     ...mapState({
       schedule: (state) => state.schedule.list,
+      scheduleDay: (state) => state.schedule.date.format('dddd'),
     }),
   },
   methods: {

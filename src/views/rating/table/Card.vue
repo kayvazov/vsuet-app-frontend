@@ -165,7 +165,7 @@
             <h4 class="mt-2 mb-0">
               {{ rating.lesson.type }}
             </h4>
-            <h4 class="mt-2 mb-0" v-if="['Зачет', 'Экзамен'].includes(rating.lesson.type)">
+            <h4 class="mt-2 mb-0" v-if="averageRating(rating.lesson.type)">
               Итоговый рейтинг: <span class="red--text">{{ rating.value[26] }}</span>
             </h4>
           </div>
@@ -225,6 +225,7 @@
 
 <script>
 import getRatingColor from '@/helper/getRatingColor';
+import { EXAM_NAME, SCORE_NAME } from '@/constants';
 
 export default {
   name: 'Card',
@@ -235,6 +236,9 @@ export default {
   },
   methods: {
     getColor: getRatingColor,
+    averageRating(type) {
+      return [SCORE_NAME, EXAM_NAME].includes(type);
+    },
   },
 };
 </script>

@@ -10,11 +10,13 @@ dayjs.extend(isSameOrAfter);
 
 const state = {
   list: null,
+  date: dayjs(),
 };
 
 const mutations = {
   [SET_SCHEDULE](state, schedule) {
-    state.list = schedule;
+    state.list = schedule.lessons;
+    state.date = schedule.date;
   },
 };
 
@@ -33,6 +35,8 @@ const actions = {
         subgroup,
         date,
       });
+
+      let hasNext = false;
 
       const lessons = data.map((lesson) => {
         if (lesson.time) {
@@ -58,19 +62,21 @@ const actions = {
 
           if (today.isBetween(startLessonTime, endLessonTime, null, '[]')) {
             lesson.isNow = true;
-            console.log(true);
           }
 
-          if (!today.isSameOrAfter(startLessonTime)) {
+          if (!hasNext && !today.isSameOrAfter(startLessonTime)) {
             lesson.isNext = true;
-            console.log('isSameOrAfter');
+            hasNext = true;
           }
         }
 
         return lesson;
       });
 
-      commit(SET_SCHEDULE, lessons);
+      commit(SET_SCHEDULE, {
+        lessons,
+        date,
+      });
     } catch (e) {
       console.log(e);
 
