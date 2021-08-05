@@ -1,6 +1,6 @@
 <template>
   <section>
-    <v-expansion-panels focusable popout multiple>
+    <v-expansion-panels focusable multiple>
       <v-expansion-panel hidden>
         <v-expansion-panel-header>
           <div class="table-header">
@@ -171,61 +171,64 @@
           </div>
         </v-expansion-panel-header>
         <v-expansion-panel-content class="pt-3">
-          <a
-            :href="rating.lesson.href"
-            target="_blank"
-            class="d-block mb-3 red--text"
-          >
-            Оригинал
-          </a>
+          <div class="d-flex justify-space-between align-center mb-6 flex-sm-row flex-column">
+            <a
+              :href="rating.lesson.href"
+              target="_blank"
+              class="d-block red--text"
+            >
+              Оригинал
+            </a>
 
-          <div
-            v-if="
-            rating.upgradedRating &&
-            rating.upgradedRating.length &&
-            rating.upgradedRating.length !== 0"
-          >
-            <v-expansion-panels>
-              <v-expansion-panel
-                v-for="(upgradedRating, upgradedRatingIndex) in rating.upgradedRating"
-                :key="upgradedRatingIndex"
-              >
-                <v-expansion-panel-header>
-                  <div>
-                    {{ upgradedRating.total.name }} -
-                    <span
-                      :class="[
+            <v-switch
+              v-model="rating.showOnlyControlPoints"
+              inset
+              hide-details
+              class="mt-sm-0"
+              label="Только КТ"
+            />
+          </div>
+
+          <v-expansion-panels v-if="rating.showOnlyControlPoints">
+            <v-expansion-panel
+              v-for="(upgradedRating, upgradedRatingIndex) in rating.upgradedRating"
+              :key="upgradedRatingIndex"
+            >
+              <v-expansion-panel-header>
+                <div>
+                  {{ upgradedRating.total.name }} -
+                  <span
+                    :class="[
                         'font-weight-bold',
                         `${getColor(upgradedRating.total.score)}--text`
                       ]">
                       {{ upgradedRating.total.score }}
                     </span>
-                  </div>
-                </v-expansion-panel-header>
-                <v-expansion-panel-content>
-                  <v-list dense>
-                    <v-list-item
-                      v-for="(pointType, pointTypeIndex) in upgradedRating.items"
-                      :key="pointTypeIndex"
-                      class="pa-0">
-                      <v-list-item-content>
-                        <div>
-                          {{ pointType.name }} -
-                          <span
-                            :class="[
+                </div>
+              </v-expansion-panel-header>
+              <v-expansion-panel-content>
+                <v-list dense>
+                  <v-list-item
+                    v-for="(pointType, pointTypeIndex) in upgradedRating.items"
+                    :key="pointTypeIndex"
+                    class="pa-0">
+                    <v-list-item-content>
+                      <div>
+                        {{ pointType.name }}({{ pointType.weight }}) -
+                        <span
+                          :class="[
                             'font-weight-bold',
                             `${getColor(pointType.score)}--text`
                           ]">
                             {{ pointType.score }}
                           </span>
-                        </div>
-                      </v-list-item-content>
-                    </v-list-item>
-                  </v-list>
-                </v-expansion-panel-content>
-              </v-expansion-panel>
-            </v-expansion-panels>
-          </div>
+                      </div>
+                    </v-list-item-content>
+                  </v-list-item>
+                </v-list>
+              </v-expansion-panel-content>
+            </v-expansion-panel>
+          </v-expansion-panels>
           <div
             v-else
             class="table-wrapper"
@@ -276,6 +279,7 @@
 <script>
 import getRatingColor from '@/helper/getRatingColor';
 import { EXAM_NAME, SCORE_NAME } from '@/constants';
+import { mapState } from 'vuex';
 
 export default {
   name: 'Card',
@@ -289,6 +293,11 @@ export default {
     averageRating(type) {
       return [SCORE_NAME, EXAM_NAME].includes(type);
     },
+  },
+  computed: {
+    ...mapState({
+      settings: (state) => state.settings,
+    }),
   },
 };
 </script>

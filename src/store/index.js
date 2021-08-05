@@ -13,6 +13,7 @@ const state = {
   settings: JSON.parse(localStorage.getItem('settings')) || {
     ratingView: '',
     darkTheme: false,
+    showOnlyControlPoints: false,
   },
 };
 

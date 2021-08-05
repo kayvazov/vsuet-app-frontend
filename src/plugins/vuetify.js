@@ -19,7 +19,7 @@ export default new Vuetify({
     iconfont: 'md',
   },
   theme: {
-    dark: toBoolean(settings.theme || false),
+    dark: toBoolean(settings.darkTheme || false),
     themes: {
       light: {
         red: '#d72a2a',

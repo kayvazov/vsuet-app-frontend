@@ -89,7 +89,7 @@ export default {
   mounted() {
     if (!this.isRegistered) {
       this.$router.push({
-        name: 'Settings',
+        name: 'SettingsUserEdit',
       });
     }
   },

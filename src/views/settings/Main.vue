@@ -30,7 +30,7 @@
             </v-list-item-subtitle>
           </v-list-item-content>
           <v-list-item-action>
-            <v-switch :input-value="active" v-model="settings.theme" />
+            <v-switch :input-value="active" v-model="settings.darkTheme" />
           </v-list-item-action>
         </template>
       </v-list-item>
@@ -49,6 +49,12 @@
             return-object
             :items="ratingViewTypes"
           ></v-select>
+        </v-list-item>
+        <v-list-item v-if="false">
+          <v-switch
+            v-model="settings.showOnlyControlPoints"
+            label="Показывать сразу КТ"
+          />
         </v-list-item>
       </v-list-group>
     </v-list-item-group>
@@ -82,7 +88,7 @@ export default {
     settings: {
       handler() {
         this.$store.commit(SET_SETTINGS, this.settings);
-        this.$vuetify.theme.dark = this.settings.theme;
+        this.$vuetify.theme.dark = this.settings.darkTheme;
       },
       deep: true,
     },

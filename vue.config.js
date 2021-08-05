@@ -1,3 +1,5 @@
+const { version } = require('./package.json');
+
 module.exports = {
   pages: {
     index: {
@@ -5,8 +7,16 @@ module.exports = {
       template: 'public/index.html',
       filename: 'index.html',
       chunks: ['chunk-vendors', 'chunk-common', 'index'],
-      title: 'ВГУИТ онлайн',
-      version: '3.0.1',
+      title: 'vsuet.app',
+      version,
+    },
+  },
+
+  pwa: {
+    name: 'vsuet.app',
+    themeColor: '#34538a',
+    manifestOptions: {
+      start_url: '/?rel=pwa',
     },
   },
 
